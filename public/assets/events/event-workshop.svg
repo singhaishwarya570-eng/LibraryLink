@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240" width="600" height="240">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4c1d95" />
+      <stop offset="100%" stop-color="#2e1065" />
+    </linearGradient>
+  </defs>
+  <rect width="600" height="240" rx="12" fill="url(#g)" />
+  <g opacity="0.06">
+    <circle cx="100" cy="120" r="90" fill="#fff" />
+    <circle cx="500" cy="180" r="140" fill="#fff" />
+  </g>
+  <g transform="translate(40, 50)">
+    <rect x="0" y="0" width="130" height="26" rx="13" fill="#ffffff" fill-opacity="0.2" />
+    <text x="65" y="17" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle" letter-spacing="1">WRITING WORKSHOP</text>
+    <text x="0" y="65" font-family="system-ui, sans-serif" font-size="24" font-weight="800" fill="#ffffff">Creative Writing Clinic</text>
+    <text x="0" y="95" font-family="system-ui, sans-serif" font-size="13" font-weight="400" fill="#e2e8f0">Mira-Bhayandar Community Learning Initiative</text>
+  </g>
+  <g transform="translate(480, 80)" fill="#ffffff" opacity="0.85">
+    <path d="M0 0h48v48H0z" fill="none"/><path d="M6 34.5V42h7.5l22.1-22.1-7.5-7.5L6 34.5zm33.7-21.9c.8-.8.8-2 0-2.8l-4.7-4.7c-.8-.8-2-.8-2.8 0l-3.7 3.7 7.5 7.5 3.7-3.7z" fill="#fff"/>
+  </g>
+</svg>

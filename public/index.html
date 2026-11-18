@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LibraryLink – Smart Community Library Network</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: {
+              950: '#091322',
+              900: '#0f1e36',
+              800: '#172d4d',
+              700: '#1e3a5f'
+            },
+            teal: {
+              400: '#2dd4bf',
+              500: '#14b8a6',
+              600: '#0d9488',
+              700: '#0f766e',
+              950: '#042f2e'
+            },
+            cream: '#fbf9f4'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="/css/custom.css">
+  <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+</head>
+<body class="bg-[#fbf9f4] text-slate-800 antialiased flex flex-col min-h-screen">
+
+  <!-- Shared Top Navigation Header -->
+  <div id="main-header"></div>
+
+  <!-- Hero Section -->
+  <main class="flex-1">
+    <section class="bg-gradient-hero text-white relative overflow-hidden py-16 lg:py-24 border-b border-slate-800">
+      <!-- Background subtle grid decoration -->
+      <div class="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(#2dd4bf_1px,transparent_1px)] [background-size:24px_24px]"></div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="max-w-3xl mx-auto text-center">
+          
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight font-serif text-white leading-tight mb-6">
+            Discover Books. <br class="hidden sm:inline">
+            <span class="text-teal-400">Find Libraries.</span> Connect Communities.
+          </h1>
+
+          <p class="text-base sm:text-lg text-slate-300 mb-8 leading-relaxed font-normal">
+            A unified digital network bridging public libraries and reading rooms across Mira-Bhayandar. Compare physical book availability, pickup distances, and low-cost home delivery fees in one smart platform.
+          </p>
+
+          <!-- Main Book Search Bar -->
+          <form id="hero-search-form" class="max-w-2xl mx-auto mb-8">
+            <div class="relative flex items-center shadow-2xl rounded-2xl overflow-hidden bg-white p-1.5 border-2 border-teal-500/30 focus-within:border-teal-400 transition-all">
+              <div class="pl-4 text-slate-400">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+              </div>
+              <input 
+                type="text" 
+                id="hero-search-input" 
+                placeholder="Search across 4 libraries by book title, author, or category (e.g. Clean Code, Fiction)..." 
+                class="w-full py-3.5 px-4 text-sm text-slate-900 placeholder-slate-400 focus:outline-none bg-transparent"
+              />
+              <button 
+                type="submit" 
+                class="flex-shrink-0 px-6 py-3.5 bg-teal-600 hover:bg-teal-500 text-white text-sm font-bold rounded-xl shadow-md transition-colors flex items-center gap-2"
+              >
+                <span>Search</span>
+                <svg class="w-4 h-4 hidden sm:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+              </button>
+            </div>
+            <div class="flex items-center justify-center gap-3 text-xs text-slate-400 mt-3">
+              <span>Popular:</span>
+              <a href="/books.html?q=Clean Code" class="hover:text-teal-300 underline underline-offset-2">Clean Code</a>
+              <span>•</span>
+              <a href="/books.html?q=Atomic Habits" class="hover:text-teal-300 underline underline-offset-2">Atomic Habits</a>
+              <span>•</span>
+              <a href="/books.html?q=1984" class="hover:text-teal-300 underline underline-offset-2">1984</a>
+              <span>•</span>
+              <a href="/books.html?category=Computer Science" class="hover:text-teal-300 underline underline-offset-2">Computer Science</a>
+            </div>
+          </form>
+
+          <!-- Quick Action Badges -->
+          <div class="flex flex-wrap items-center justify-center gap-4 text-xs font-medium text-slate-300">
+            <div class="flex items-center gap-1.5">
+              <svg class="w-4 h-4 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              <span>Haversine GPS Distance Check</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <svg class="w-4 h-4 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              <span>Free Pickup & Home Delivery</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <svg class="w-4 h-4 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              <span>Verified Book Cover Assets</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Platform Statistics Section -->
+    <section class="bg-white border-b border-slate-200/80 py-8 relative -mt-4 shadow-sm max-w-6xl mx-auto rounded-2xl z-20 px-6">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center divide-y md:divide-y-0 md:divide-x divide-slate-100">
+        <div class="pt-2 md:pt-0">
+          <p id="stat-books" class="text-3xl lg:text-4xl font-extrabold text-slate-900 font-serif">20</p>
+          <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mt-1">Catalogued Titles</p>
+        </div>
+        <div class="pt-2 md:pt-0">
+          <p id="stat-libraries" class="text-3xl lg:text-4xl font-extrabold text-teal-700 font-serif">4</p>
+          <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mt-1">Connected Libraries</p>
+        </div>
+        <div class="pt-4 md:pt-0">
+          <p id="stat-events" class="text-3xl lg:text-4xl font-extrabold text-slate-900 font-serif">6</p>
+          <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mt-1">Reading Meetups</p>
+        </div>
+        <div class="pt-4 md:pt-0">
+          <p id="stat-readers" class="text-3xl lg:text-4xl font-extrabold text-teal-700 font-serif">11</p>
+          <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mt-1">Books Read in Challenges</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- How LibraryLink Works (Innovation Flow) -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <h2 class="text-xs font-bold uppercase tracking-widest text-teal-700 mb-2">Our Innovation</h2>
+        <p class="text-2xl sm:text-3xl font-extrabold text-slate-900 font-serif">How Smart Multi-Library Discovery Works</p>
+        <p class="text-sm text-slate-600 mt-3 leading-relaxed">
+          Instead of visiting multiple community centres only to find empty shelves, LibraryLink provides live inventory visibility across the entire Mira-Bhayandar area.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-white p-7 rounded-2xl border border-slate-200/80 shadow-sm relative">
+          <div class="w-12 h-12 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center font-extrabold text-lg mb-5 border border-teal-100">
+            01
+          </div>
+          <h3 class="text-lg font-bold text-slate-900 mb-2">Search Once, Check Everywhere</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Search for any book by title, author, or category. Our engine simultaneously checks physical copies across all municipal and community library branches.
+          </p>
+        </div>
+
+        <div class="bg-white p-7 rounded-2xl border border-teal-200/80 shadow-md relative bg-gradient-to-b from-white to-teal-50/20">
+          <div class="w-12 h-12 rounded-xl bg-teal-600 text-white flex items-center justify-center font-extrabold text-lg mb-5 shadow-sm">
+            02
+          </div>
+          <h3 class="text-lg font-bold text-slate-900 mb-2">Compare Distance & Delivery</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            See which library has available copies, calculate approximate travel distance via Haversine geolocation, and view transparent estimated delivery charges.
+          </p>
+        </div>
+
+        <div class="bg-white p-7 rounded-2xl border border-slate-200/80 shadow-sm relative">
+          <div class="w-12 h-12 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center font-extrabold text-lg mb-5 border border-teal-100">
+            03
+          </div>
+          <h3 class="text-lg font-bold text-slate-900 mb-2">Reserve for Pickup or Delivery</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Instantly reserve your physical copy. Pick it up for free from the library counter or request convenient home delivery directly to your doorstep.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Books Section -->
+    <section class="bg-white py-16 border-y border-slate-200/80">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
+          <div>
+            <h2 class="text-xs font-bold uppercase tracking-widest text-teal-700 mb-1">Curated Catalogue</h2>
+            <p class="text-2xl sm:text-3xl font-extrabold text-slate-900 font-serif">Featured Books in Network</p>
+            <p class="text-xs text-slate-500 mt-1">Verified titles and physical stock across Mira-Bhayandar branches</p>
+          </div>
+          <a href="/books.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-teal-700 hover:text-teal-800 transition-colors">
+            View All 20 Books
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+          </a>
+        </div>
+
+        <!-- Book Cards Grid -->
+        <div id="featured-books-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+          <!-- Populated dynamically by home.js -->
+          <div class="col-span-full text-center py-12 text-slate-400">Loading catalog...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Connected Libraries Section -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <h2 class="text-xs font-bold uppercase tracking-widest text-teal-700 mb-1">Participating Branches</h2>
+        <p class="text-2xl sm:text-3xl font-extrabold text-slate-900 font-serif">Community Libraries & Study Centres</p>
+        <p class="text-xs text-slate-500 mt-2">Connecting municipal and community reading spaces under one digital umbrella</p>
+      </div>
+
+      <div id="libraries-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Populated dynamically by home.js -->
+        <div class="col-span-full text-center py-8 text-slate-400">Loading participating libraries...</div>
+      </div>
+    </section>
+
+    <!-- Upcoming Events Section -->
+    <section class="bg-slate-900 text-white py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
+          <div>
+            <h2 class="text-xs font-bold uppercase tracking-widest text-teal-400 mb-1">Community Learning</h2>
+            <p class="text-2xl sm:text-3xl font-extrabold text-white font-serif">Upcoming Meetups & Workshops</p>
+            <p class="text-xs text-slate-400 mt-1">Free community book discussions, coding reading circles, and creative writing clinics</p>
+          </div>
+          <a href="/meetups.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-teal-400 hover:text-teal-300 transition-colors">
+            Explore All Meetups
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+          </a>
+        </div>
+
+        <div id="upcoming-events-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Populated dynamically by home.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action Banner -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="bg-gradient-navy rounded-3xl p-8 sm:p-12 text-white relative overflow-hidden shadow-xl border border-slate-800">
+        <div class="max-w-2xl relative z-10">
+          <span class="px-3 py-1 text-xs font-bold rounded-full bg-teal-500/20 text-teal-300 border border-teal-500/30 mb-4 inline-block">
+            Start Your Reading Journey Today
+          </span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold font-serif mb-4 leading-tight">
+            Take the 2026 Mira-Bhayandar Community Reading Challenge
+          </h2>
+          <p class="text-sm text-slate-300 mb-8 leading-relaxed font-normal">
+            Set your yearly goal, track completed books across local libraries, log notes and ratings, and contribute to our community learning index.
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <a href="/challenge.html" class="px-6 py-3.5 bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold rounded-xl text-sm shadow-md transition-colors">
+              Join Reading Challenge
+            </a>
+            <a href="/books.html" class="px-6 py-3.5 bg-slate-800 hover:bg-slate-700 text-white font-semibold rounded-xl text-sm border border-slate-700 transition-colors">
+              Browse All Books
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Shared Footer -->
+  <div id="main-footer"></div>
+
+  <!-- Scripts -->
+  <script src="/js/api.js"></script>
+  <script src="/js/navbar.js"></script>
+  <script src="/js/home.js"></script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+/* LibraryLink Modern Custom Stylesheet */
+:root {
+  --color-navy-dark: #091322;
+  --color-navy: #0f1e36;
+  --color-navy-light: #1e3a5f;
+  --color-teal: #0d9488;
+  --color-teal-light: #14b8a6;
+  --color-teal-dark: #0f766e;
+  --color-cream: #fbf9f4;
+  --color-cream-card: #ffffff;
+  --color-cream-border: #e9e4d9;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--color-cream);
+  color: #1e293b;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+/* Custom transitions and hover cards */
+.book-card {
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.book-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 30px -10px rgba(15, 30, 54, 0.12), 0 8px 16px -6px rgba(13, 148, 136, 0.08);
+}
+
+.library-card {
+  transition: all 0.2s ease-in-out;
+}
+
+.library-card:hover {
+  border-color: #0d9488;
+  transform: translateY(-2px);
+}
+
+/* Gradient accents */
+.bg-gradient-navy {
+  background: linear-gradient(135deg, #091322 0%, #0f1e36 60%, #172d4d 100%);
+}
+
+.bg-gradient-teal {
+  background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%);
+}
+
+.bg-gradient-hero {
+  background: radial-gradient(circle at top right, #1e3a5f 0%, #0f1e36 50%, #091322 100%);
+}
+
+/* Glassmorphism effects */
+.glass-header {
+  background: rgba(15, 30, 54, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Modal styles */
+.modal-overlay {
+  background-color: rgba(9, 19, 34, 0.65);
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal-content {
+  animation: scaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+  from { opacity: 0; transform: scale(0.96) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Toast notifications */
+#toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 420px;
+}
+
+.toast {
+  padding: 14px 18px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+  animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.toast-success {
+  background-color: #064e3b;
+  color: #ecfdf5;
+  border-left: 4px solid #34d399;
+}
+
+.toast-error {
+  background-color: #7f1d1d;
+  color: #fef2f2;
+  border-left: 4px solid #f87171;
+}
+
+.toast-info {
+  background-color: #0f1e36;
+  color: #f0fdfa;
+  border-left: 4px solid #2dd4bf;
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}

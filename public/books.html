@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Find Books – Smart Multi-Library Network | LibraryLink</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: { 950: '#091322', 900: '#0f1e36', 800: '#172d4d', 700: '#1e3a5f' },
+            teal: { 400: '#2dd4bf', 500: '#14b8a6', 600: '#0d9488', 700: '#0f766e', 950: '#042f2e' },
+            cream: '#fbf9f4'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="/css/custom.css">
+  <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+</head>
+<body class="bg-[#fbf9f4] text-slate-800 antialiased flex flex-col min-h-screen">
+
+  <!-- Shared Top Navigation Header -->
+  <div id="main-header"></div>
+
+  <!-- Page Header & Innovation Showcase Banner -->
+  <section class="bg-gradient-navy text-white py-12 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <h1 class="text-3xl sm:text-4xl font-extrabold font-serif tracking-tight">Smart Multi-Library Book Finder</h1>
+          <p class="text-sm text-slate-300 mt-2 max-w-2xl leading-relaxed">
+            Discover which branch has your book in stock. Compare approximate distance, free counter pickup, and doorstep delivery fees across Mira-Bhayandar.
+          </p>
+        </div>
+
+        <!-- Location Reference Control Box -->
+        <div class="bg-slate-800/90 p-4 rounded-2xl border border-slate-700/80 shadow-md text-xs min-w-[300px]">
+          <div class="flex items-center justify-between gap-2 mb-2">
+            <span class="font-bold text-slate-300 flex items-center gap-1.5">
+              <svg class="w-4 h-4 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
+              Your Location (Haversine Ref):
+            </span>
+            <button id="use-live-gps-btn" class="text-[11px] font-semibold text-teal-400 hover:text-teal-300 underline underline-offset-2">
+              Use My GPS
+            </button>
+          </div>
+          <select id="location-preset" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white font-medium focus:outline-none focus:ring-1 focus:ring-teal-400">
+            <option value="mira-road-station">Mira Road Railway Station (East)</option>
+            <option value="bhayandar-station">Bhayandar Railway Station (West)</option>
+            <option value="kanakia-beverly">Kanakia Beverly Park, Mira Road</option>
+            <option value="golden-nest">Golden Nest Circle, Bhayandar East</option>
+          </select>
+          <p class="text-[10px] text-slate-400 mt-1.5">Distances calculated live with Haversine formula from this origin point.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Filter and Search Toolbar -->
+  <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    
+    <!-- Controls Bar -->
+    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm mb-8">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+        
+        <!-- Search bar -->
+        <div class="md:col-span-5 relative">
+          <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+          </div>
+          <input 
+            type="text" 
+            id="search-input" 
+            placeholder="Search by title, author, or ISBN..." 
+            class="w-full pl-10 pr-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all"
+          />
+        </div>
+
+        <!-- Category Dropdown -->
+        <div class="md:col-span-3">
+          <select 
+            id="category-filter" 
+            class="w-full py-2.5 px-3 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:bg-white focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 font-medium"
+          >
+            <option value="All">All Categories</option>
+            <!-- Populated by JS -->
+          </select>
+        </div>
+
+        <!-- Sort By Dropdown -->
+        <div class="md:col-span-2">
+          <select 
+            id="sort-filter" 
+            class="w-full py-2.5 px-3 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:bg-white focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 font-medium"
+          >
+            <option value="title">Sort: Title (A-Z)</option>
+            <option value="author">Sort: Author</option>
+            <option value="availability">Sort: Highest Stock</option>
+            <option value="newest">Sort: Newest</option>
+          </select>
+        </div>
+
+        <!-- In Stock Toggle -->
+        <div class="md:col-span-2 flex items-center gap-2 md:justify-end">
+          <label class="inline-flex items-center gap-2 cursor-pointer text-xs font-semibold text-slate-700">
+            <input type="checkbox" id="available-only-filter" class="w-4 h-4 text-teal-600 rounded border-slate-300 focus:ring-teal-500">
+            <span>In Stock Only</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="mt-4 pt-3 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-2">
+        <span id="books-count-label">Loading catalog...</span>
+        <div class="flex items-center gap-4">
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Available for Instant Reserve</span>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-400"></span> Out of Stock</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Books Grid -->
+    <div id="books-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+      <!-- Populated dynamically by books.js -->
+    </div>
+  </main>
+
+  <!-- ============================================================ -->
+  <!-- MODAL 1: Smart Multi-Library Availability Comparison Modal -->
+  <!-- ============================================================ -->
+  <div id="availability-modal" class="fixed inset-0 z-50 hidden overflow-y-auto modal-overlay flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-4xl w-full shadow-2xl overflow-hidden modal-content max-h-[92vh] flex flex-col my-6 border border-slate-200">
+      
+      <!-- Modal Top Bar -->
+      <div class="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-slate-50">
+        <div class="flex items-center gap-2">
+          <span class="p-1.5 rounded-lg bg-teal-50 text-teal-700">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+          </span>
+          <h3 class="font-bold text-slate-900 text-sm">Multi-Library Availability & Delivery Comparison</h3>
+        </div>
+        <button onclick="closeAvailabilityModal()" class="text-slate-400 hover:text-slate-600 p-1 rounded-lg text-lg font-bold">&times;</button>
+      </div>
+
+      <!-- Modal Body (Dynamic) -->
+      <div id="availability-modal-body" class="p-6 overflow-y-auto flex-1">
+        <!-- Injected via books.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- MODAL 2: Book Reservation Form (Module 3) -->
+  <!-- ============================================================ -->
+  <div id="reservation-modal" class="fixed inset-0 z-50 hidden overflow-y-auto modal-overlay flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full shadow-2xl overflow-hidden modal-content my-6 border border-slate-200">
+      
+      <div class="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-slate-50">
+        <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+          <svg class="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+          Confirm Book Reservation
+        </h3>
+        <button onclick="closeReservationModal()" class="text-slate-400 hover:text-slate-600 p-1 text-lg font-bold">&times;</button>
+      </div>
+
+      <form onsubmit="handleReservationSubmit(event)" class="p-6 space-y-4">
+        
+        <!-- Summary Card -->
+        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs space-y-1.5">
+          <div class="flex justify-between">
+            <span class="text-slate-500 font-medium">Book:</span>
+            <span id="res-book-title" class="font-bold text-slate-900 text-right"></span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-500 font-medium">Author:</span>
+            <span id="res-book-author" class="text-slate-700 text-right"></span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-500 font-medium">Selected Branch:</span>
+            <span id="res-library-name" class="font-bold text-teal-800 text-right"></span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-500 font-medium">Distance from Ref:</span>
+            <span id="res-distance-km" class="text-slate-700 font-medium text-right"></span>
+          </div>
+        </div>
+
+        <!-- Fulfillment Selector (Pickup vs Delivery) -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Select Fulfillment Option</label>
+          <div class="grid grid-cols-2 gap-3">
+            <label class="border-2 border-slate-200 rounded-xl p-3 cursor-pointer hover:border-teal-400 flex flex-col justify-between has-[:checked]:border-teal-600 has-[:checked]:bg-teal-50/30">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-bold text-slate-900">Self Pickup</span>
+                <input type="radio" id="fulfillment-pickup" name="fulfillmentType" value="pickup" checked onchange="toggleFulfillmentFields('pickup')" class="text-teal-600">
+              </div>
+              <span class="text-[11px] text-emerald-600 font-bold">FREE</span>
+              <span class="text-[10px] text-slate-500 mt-0.5">Collect at counter desk</span>
+            </label>
+
+            <label class="border-2 border-slate-200 rounded-xl p-3 cursor-pointer hover:border-teal-400 flex flex-col justify-between has-[:checked]:border-teal-600 has-[:checked]:bg-teal-50/30">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-bold text-slate-900">Home Delivery</span>
+                <input type="radio" id="fulfillment-delivery" name="fulfillmentType" value="delivery" onchange="toggleFulfillmentFields('delivery')" class="text-teal-600">
+              </div>
+              <span id="res-delivery-fee-badge" class="text-[11px] text-teal-700 font-bold">₹30</span>
+              <span class="text-[10px] text-slate-500 mt-0.5">Doorstep delivery</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- User Information Fields -->
+        <div class="space-y-3 pt-2">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Your Full Name *</label>
+            <input type="text" id="res-user-name" required placeholder="e.g. Rohan Sharma" class="w-full text-xs p-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500" value="">
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Email Address *</label>
+              <input type="email" id="res-user-email" required placeholder="name@email.com" class="w-full text-xs p-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500" value="">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Phone Number *</label>
+              <input type="tel" id="res-user-phone" required placeholder="+91 98XXX XXXXX" class="w-full text-xs p-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500" value="">
+            </div>
+          </div>
+
+          <!-- Dynamic Home Delivery Address -->
+          <div id="delivery-fields" class="hidden space-y-2 pt-2 border-t border-slate-100">
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Delivery Address in Mira-Bhayandar *</label>
+              <input type="text" id="res-delivery-address" placeholder="Flat No, Building, Area, Mira-Bhayandar" class="w-full text-xs p-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500" value="Flat 402, Royal Complex, Mira Road East">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Delivery Instructions (Optional)</label>
+              <input type="text" id="res-delivery-notes" placeholder="e.g. Call before coming or leave at security" class="w-full text-xs p-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500">
+            </div>
+          </div>
+        </div>
+
+        <!-- Price Breakdown -->
+        <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+          <span class="text-slate-500 font-medium">Estimated Charge:</span>
+          <span id="res-fee-summary" class="font-bold text-emerald-600">FREE (Pick up at library counter)</span>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="pt-2">
+          <button type="submit" id="res-submit-btn" class="w-full py-3 bg-teal-600 hover:bg-teal-500 text-white font-bold rounded-xl text-xs shadow-md transition-colors">
+            Confirm & Reserve Book
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- MODAL 3: Booking Confirmation Receipt Dialog -->
+  <!-- ============================================================ -->
+  <div id="confirmation-modal" class="fixed inset-0 z-50 hidden overflow-y-auto modal-overlay flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl overflow-hidden modal-content my-6 border border-slate-200">
+      <div id="confirmation-modal-body" class="p-6">
+        <!-- Injected via books.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Shared Footer -->
+  <div id="main-footer"></div>
+
+  <!-- Scripts -->
+  <script src="/js/api.js"></script>
+  <script src="/js/navbar.js"></script>
+  <script src="/js/books.js"></script>
+</body>
+</html>
