@@ -1,0 +1,49 @@
+{
+  "version": 2,
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/api",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/",
+      "destination": "/public/index.html"
+    },
+    {
+      "source": "/books",
+      "destination": "/public/books.html"
+    },
+    {
+      "source": "/meetups",
+      "destination": "/public/meetups.html"
+    },
+    {
+      "source": "/challenge",
+      "destination": "/public/challenge.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/public/admin.html"
+    },
+    {
+      "source": "/user-signin",
+      "destination": "/public/user-signin.html"
+    },
+    {
+      "source": "/user-signup",
+      "destination": "/public/user-signup.html"
+    },
+    {
+      "source": "/user-dashboard",
+      "destination": "/public/user-dashboard.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/public/$1"
+    }
+  ]
+}

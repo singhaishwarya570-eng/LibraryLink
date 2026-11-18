@@ -16,6 +16,20 @@ app.use(express.urlencoded({ extended: true }));
 // Serve static frontend assets
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Ensure database connection for API routes in serverless environments (Vercel)
+app.use('/api', async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    console.error('[DB Middleware] Connection error:', err.message);
+    res.status(500).json({
+      success: false,
+      message: 'Database connection failed. Please ensure MONGODB_URI is configured correctly in Vercel environment variables.'
+    });
+  }
+});
+
 // API Routes
 app.use('/api', require('./src/routes/health.routes'));
 app.use('/api/books', require('./src/routes/book.routes'));
@@ -60,5 +74,7 @@ if (require.main === module) {
   startServer();
 }
 
-module.exports = { app, startServer };
+app.app = app;
+app.startServer = startServer;
+module.exports = app;
 
