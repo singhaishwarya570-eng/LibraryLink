@@ -164,7 +164,14 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password })
         });
-        const data = await res.json();
+        
+        let data;
+        const text = await res.text();
+        try {
+          data = JSON.parse(text);
+        } catch (parseErr) {
+          throw new Error(text ? `Server error (${res.status}): ${text.slice(0, 150)}` : `Server returned HTTP ${res.status}`);
+        }
 
         if (!data.success) {
           throw new Error(data.message || 'Sign in failed');
